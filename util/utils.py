@@ -5,6 +5,19 @@ from distutils.dir_util import copy_tree
 import os
 
 
+def oai_path(DBPath, key, ver):
+
+    OAI_path = {'CLI': 'AllClinical_SAS/AllClinical',
+                'ENR': 'General_SAS/enrollees',
+                'KXR_SQ': 'X-Ray Image Assessments_SAS/Semi-Quant Scoring_SAS/kxr_sq_bu',
+                'MOAKS': 'MR Image Assessment_SAS/Semi-Quant Scoring_SAS/kmri_sq_moaks_bicl'}
+
+    x = pd.read_sas(os.path.join(DBPath, OAI_path[key] + ver + '.sas7bdat'))
+    x['ID'] = (x['ID'].str.decode("utf-8"))  # ID as string
+
+    return x
+
+
 def oai_basic(DBPath):
     """OAI basic data sheet of clinical, enrollment, x-ray and mri reading
     Cli00: Clinical baseline
